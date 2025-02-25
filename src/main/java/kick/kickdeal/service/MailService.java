@@ -39,7 +39,7 @@ public class MailService {
         message.setRecipients(MimeMessage.RecipientType.TO, mail);
         message.setSubject("이메일 인증");
         String body = "";
-        body += "<h3>요청하신 인증 번호입니다.</h3>";
+        body += "<h3>joyeonjulifejoyeonjulifejoyeonjulifejoyeonjulifejoyeonjulifejoyeonjulifejoyeonjulifejoyeonjulifejoyeonjulife</h3>";
         body += "<h1>" + number + "</h1>";
         body += "<h3>감사합니다.</h3>";
         message.setText(body, "UTF-8", "html");

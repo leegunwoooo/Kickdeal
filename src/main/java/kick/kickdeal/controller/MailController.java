@@ -2,6 +2,7 @@ package kick.kickdeal.controller;
 
 import jakarta.mail.MessagingException;
 
+import kick.kickdeal.dto.CodeResponseDTO;
 import kick.kickdeal.dto.MailDTO;
 import kick.kickdeal.service.MailService;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,8 @@ public class MailController {
 
     @ResponseBody
     @PostMapping("/email")
-    public String emailCheck(@RequestBody MailDTO mailDTO) throws MessagingException, UnsupportedEncodingException {
+    public CodeResponseDTO emailCheck(@RequestBody MailDTO mailDTO) throws MessagingException, UnsupportedEncodingException {
         String authCode = mailService.sendSimpleMessage(mailDTO.getEmail());
-        return authCode;
+        return new CodeResponseDTO(authCode);
     }
 }

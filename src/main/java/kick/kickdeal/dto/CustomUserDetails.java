@@ -1,70 +1,70 @@
-package kick.kickdeal.dto;
+    package kick.kickdeal.dto;
 
-import kick.kickdeal.entity.User;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+    import kick.kickdeal.entity.User;
+    import lombok.RequiredArgsConstructor;
+    import org.springframework.security.core.GrantedAuthority;
+    import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-@RequiredArgsConstructor
-public class CustomUserDetails implements UserDetails {
+    import java.util.ArrayList;
+    import java.util.Collection;
+    import java.util.List;
+    @RequiredArgsConstructor
+    public class CustomUserDetails implements UserDetails {
 
-    private final User user;
+        private final User user;
 
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+        @Override
+        public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        Collection<GrantedAuthority> collection = new ArrayList<>();
+            Collection<GrantedAuthority> collection = new ArrayList<>();
 
-        collection.add(new GrantedAuthority() {
+            collection.add(new GrantedAuthority() {
 
-            @Override
-            public String getAuthority() {
+                @Override
+                public String getAuthority() {
 
-                return user.getRole();
-            }
-        });
+                    return user.getRole();
+                }
+            });
 
-        return collection;
+            return collection;
+        }
+
+        @Override
+        public String getPassword() {
+
+            return user.getPassword();
+        }
+
+        @Override
+        public String getUsername() {
+
+            return user.getId();
+        }
+
+        @Override
+        public boolean isAccountNonExpired() {
+
+            return true;
+        }
+
+        @Override
+        public boolean isAccountNonLocked() {
+
+            return true;
+        }
+
+        @Override
+        public boolean isCredentialsNonExpired() {
+
+            return true;
+        }
+
+        @Override
+        public boolean isEnabled() {
+
+            return true;
+        }
     }
-
-    @Override
-    public String getPassword() {
-
-        return user.getPassword();
-    }
-
-    @Override
-    public String getUsername() {
-
-        return user.getId();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-
-        return true;
-    }
-}
 
