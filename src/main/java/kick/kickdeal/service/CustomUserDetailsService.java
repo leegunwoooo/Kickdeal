@@ -25,7 +25,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
             //UserDetails에 담아서 return하면 AutneticationManager가 검증 함
             return new CustomUserDetails(userData);
+        } else {
+            // 사용자 없음 예외 던지기
+            throw new UsernameNotFoundException("User not found with username: " + id);
         }
-        return null;
     }
 }
