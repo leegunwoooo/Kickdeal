@@ -37,4 +37,4 @@ spring:
       auth-code-expiration-millis: 1800000
 
   jwt:
-    secret: "vmfhaltmskdlstkfkdgodyroqkfwkdbalroqkfwkdbalaaaaaaaaaaaaaaaabbbbb"
+    secret: ${token}
