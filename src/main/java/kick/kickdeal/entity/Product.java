@@ -1,15 +1,18 @@
 package kick.kickdeal.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDate;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,4 +23,22 @@ public class Product {
     private String description;
 
     private int price;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDate date;
+
+    @Builder
+    public Product(String name, String description, int price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
+
+
+    public void update(String name, String description, int price) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+    }
 }
