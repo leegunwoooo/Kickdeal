@@ -5,6 +5,7 @@ import kick.kickdeal.jwt.LoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -64,7 +65,11 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("login", "/", "/join", "/email").permitAll()
-                        .requestMatchers("/Admin", "/product/save", "product/").hasRole("ADMIN")
+                        .requestMatchers("/Admin").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/product/**").permitAll()  // 조회(GET)는 모두 허용
+                        .requestMatchers(HttpMethod.POST, "/product/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/product/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/product/**").hasRole("ADMIN")
                         .anyRequest().authenticated());
 
         //필터 추가 LoginFilter()는 인자를 받음 (AuthenticationManager() 메소드에 authenticationConfiguration 객체를 넣어야 함) 따라서 등록 필요

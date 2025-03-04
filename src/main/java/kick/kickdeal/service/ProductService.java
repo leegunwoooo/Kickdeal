@@ -3,8 +3,12 @@ package kick.kickdeal.service;
 
 import kick.kickdeal.dto.ProductDTO;
 import kick.kickdeal.entity.Product;
+import kick.kickdeal.entity.User;
 import kick.kickdeal.repository.ProductRepository;
+import kick.kickdeal.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,12 +19,20 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
     public Product save(ProductDTO productDTO) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();  // 로그인된 사용자의 username (아이디) 가져오기
+
+        User seller = userRepository.findById(username);
+
         Product product = Product.builder()
                 .name(productDTO.getName())
                 .description(productDTO.getDescription())
                 .price(productDTO.getPrice())
+                .user(seller)
                 .build();
 
         return productRepository.save(product);

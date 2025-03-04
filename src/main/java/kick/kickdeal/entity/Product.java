@@ -28,11 +28,16 @@ public class Product {
     @Column(updatable = false)
     private LocalDate date;
 
+    @ManyToOne
+    @JoinColumn(name = "seller")
+    private User user;
+
     @Builder
-    public Product(String name, String description, int price) {
+    public Product(String name, String description, int price, User user) {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.user = user;
     }
 
 
