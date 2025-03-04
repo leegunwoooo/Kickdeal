@@ -40,8 +40,15 @@ public class ProductService {
 
     @Transactional
     public Product update(Long id, ProductDTO productDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다. id: " + id));
+
+        if(!product.getUser().getId().equals(username)) {
+            throw new IllegalArgumentException("본인만 상품정보를 수정할 수 있습니다. id: " + id);
+        }
 
         product.update(productDTO.getName(), productDTO.getDescription(), productDTO.getPrice());
 
@@ -58,6 +65,16 @@ public class ProductService {
     }
 
     public void delete(Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다. id: " + id));
+
+        if(!product.getUser().getId().equals(username)) {
+            throw new IllegalArgumentException("본인만 상품정보를 수정할 수 있습니다. id: " + id);
+        }
+
         productRepository.deleteById(id);
     }
 }
