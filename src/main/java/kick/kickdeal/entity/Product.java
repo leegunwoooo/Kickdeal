@@ -28,19 +28,18 @@ public class Product {
     @Column(updatable = false)
     private LocalDate date;
 
-    /*@ManyToOne
+    @ManyToOne
     @JoinColumn(name = "seller")
-    private User user;*/
+    private User user;
 
     @Builder
-    public Product(String name, String description, int price) {
+    public Product(String name, String description, int price, User user) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.date = LocalDate.now();
-        //this.user = user;
+        this.user = user;
     }
-    //User user;
 
 
     public void update(String name, String description, int price) {
