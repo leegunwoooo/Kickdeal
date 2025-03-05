@@ -18,6 +18,7 @@ spring:
         hibernate:
           SQL: debug
           type: trace
+          security: DEBUG
 
   mail:
     host: smtp.gmail.com
