@@ -67,9 +67,9 @@ public class SecurityConfig {
                         .requestMatchers("login", "/", "/join", "/email").permitAll()
                         .requestMatchers("/Admin").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/product/**").permitAll()  // 조회(GET)는 모두 허용
-                        .requestMatchers(HttpMethod.POST, "/product/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/product/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/product/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/product/**").permitAll()//hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/product/**").permitAll()//hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/product/**").permitAll()//hasRole("ADMIN")
                         .anyRequest().authenticated());
 
         //필터 추가 LoginFilter()는 인자를 받음 (AuthenticationManager() 메소드에 authenticationConfiguration 객체를 넣어야 함) 따라서 등록 필요

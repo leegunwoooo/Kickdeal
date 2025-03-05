@@ -23,16 +23,19 @@ public class ProductService {
 
     public Product save(ProductDTO productDTO) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();  // 로그인된 사용자의 username (아이디) 가져오기
 
-        User seller = userRepository.findById(username);
+        System.out.println("인증된 사용자: " + authentication);
+        System.out.println("사용자 이름: " + username);
+
+        User seller = userRepository.findById(username);*/
 
         Product product = Product.builder()
                 .name(productDTO.getName())
                 .description(productDTO.getDescription())
                 .price(productDTO.getPrice())
-                .user(seller)
+                //.user(seller)
                 .build();
 
         return productRepository.save(product);
@@ -40,15 +43,15 @@ public class ProductService {
 
     @Transactional
     public Product update(Long id, ProductDTO productDTO) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();*/
 
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다. id: " + id));
 
-        if(!product.getUser().getId().equals(username)) {
+       /* if(!product.getUser().getId().equals(username)) {
             throw new IllegalArgumentException("본인만 상품정보를 수정할 수 있습니다. id: " + id);
-        }
+        }*/
 
         product.update(productDTO.getName(), productDTO.getDescription(), productDTO.getPrice());
 
@@ -65,15 +68,15 @@ public class ProductService {
     }
 
     public void delete(Long id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();*/
 
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다. id: " + id));
 
-        if(!product.getUser().getId().equals(username)) {
+       /* if(!product.getUser().getId().equals(username)) {
             throw new IllegalArgumentException("본인만 상품정보를 수정할 수 있습니다. id: " + id);
-        }
+        }*/
 
         productRepository.deleteById(id);
     }
