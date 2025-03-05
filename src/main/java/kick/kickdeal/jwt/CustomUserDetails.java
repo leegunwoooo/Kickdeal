@@ -1,4 +1,4 @@
-    package kick.kickdeal.dto;
+    package kick.kickdeal.jwt;
 
     import kick.kickdeal.entity.User;
     import lombok.RequiredArgsConstructor;
@@ -7,7 +7,7 @@
 
     import java.util.ArrayList;
     import java.util.Collection;
-    import java.util.List;
+
     @RequiredArgsConstructor
     public class CustomUserDetails implements UserDetails {
 
