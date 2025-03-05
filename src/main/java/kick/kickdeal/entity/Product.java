@@ -31,6 +31,7 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "seller")
     private User user;
+    //
 
     @Builder
     public Product(String name, String description, int price, User user) {
