@@ -61,6 +61,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         // JSON 응답 반환
         try {
+            System.out.println("로그인 성공 - username: " + username + ", role: " + role);
+            System.out.println("발급된 JWT: " + token);
             response.getWriter().write("{\"token\": \"" + token + "\"}");
         } catch (IOException e) {
             throw new RuntimeException("토큰 응답을 생성하는 중 오류 발생", e);
