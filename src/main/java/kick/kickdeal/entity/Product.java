@@ -32,21 +32,24 @@ public class Product {
     @JoinColumn(name = "seller")
     private User user;
 
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
     @Builder
-    public Product(String name, String description, int price, User user) {
+    public Product(String name, String description, int price, User user, Category category) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.date = LocalDate.now();
-
         this.user = user;
+        this.category = category;
     }
 
 
-    public void update(String name, String description, int price) {
+    public void update(String name, String description, int price, Category category) {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.category = category;
     }
 }

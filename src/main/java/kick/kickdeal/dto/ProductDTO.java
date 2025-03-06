@@ -1,5 +1,6 @@
 package kick.kickdeal.dto;
 
+import kick.kickdeal.entity.Category;
 import kick.kickdeal.entity.Product;
 import kick.kickdeal.entity.User;
 import lombok.Getter;
@@ -23,6 +24,8 @@ public class ProductDTO {
 
     private String userNickname;
 
+    private Category category;
+
 
     public ProductDTO(Product product) {
         this.name = product.getName();
@@ -30,5 +33,6 @@ public class ProductDTO {
         this.price = product.getPrice();
         this.date = product.getDate();
         this.userNickname = product.getUser().getId();
+        this.category = product.getCategory();
     }
 }
