@@ -1,6 +1,7 @@
 package kick.kickdeal.dto;
 
 import kick.kickdeal.entity.Product;
+import kick.kickdeal.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,11 +21,14 @@ public class ProductDTO {
 
     private LocalDate date;
 
+    private String userNickname;
+
 
     public ProductDTO(Product product) {
         this.name = product.getName();
         this.description = product.getDescription();
         this.price = product.getPrice();
         this.date = product.getDate();
+        this.userNickname = product.getUser().getId();
     }
 }

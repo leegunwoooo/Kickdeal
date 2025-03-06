@@ -23,11 +23,11 @@ public class ProductService {
 
     public Product save(ProductDTO productDTO) {
 
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        String nickname = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        System.out.println("사용자 이름: " + name);
+        System.out.println("사용자 이름: " + nickname);
 
-        User seller = userRepository.findById(name);
+        User seller = userRepository.findById(nickname);
 
         Product product = Product.builder()
                 .name(productDTO.getName())
