@@ -1,13 +1,11 @@
 package kick.kickdeal.service;
 
-
 import kick.kickdeal.dto.ProductDTO;
 import kick.kickdeal.entity.Product;
 import kick.kickdeal.entity.User;
 import kick.kickdeal.repository.ProductRepository;
 import kick.kickdeal.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,13 +20,14 @@ public class ProductService {
     private final UserRepository userRepository;
 
     public ProductDTO save(ProductDTO productDTO) {
-
+        // 현재 로그인한 사용자 닉네임을 가져옵니다.
         String nickname = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        System.out.println("사용자 이름: " + nickname);
-
+        // 사용자의 정보 가져오기
         User seller = userRepository.findById(nickname);
 
+
+        // Product 객체 생성
         Product product = Product.builder()
                 .name(productDTO.getName())
                 .description(productDTO.getDescription())
@@ -36,8 +35,10 @@ public class ProductService {
                 .user(seller)
                 .build();
 
+        // 상품 저장
         product = productRepository.save(product);
 
+        // 저장된 상품을 DTO로 변환하여 반환
         return new ProductDTO(product);
     }
 
