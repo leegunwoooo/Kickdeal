@@ -55,7 +55,7 @@ public class JWTFilter extends OncePerRequestFilter {
         user.setId(username);
         user.setRole(role);
 
-        // UserDetails 생성
+        // UserDetails 생성 (비밀번호는 null로 설정)
         CustomUserDetails customUserDetails = new CustomUserDetails(user);
 
         // 스프링 시큐리티 인증 토큰 생성 및 컨텍스트에 저장
