@@ -21,7 +21,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
 
-    public Product save(ProductDTO productDTO) {
+    public ProductDTO save(ProductDTO productDTO) {
 
         String nickname = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -36,8 +36,9 @@ public class ProductService {
                 .user(seller)
                 .build();
 
-        return productRepository.save(product);
-        //
+        product = productRepository.save(product);
+
+        return new ProductDTO(product);
     }
 
     @Transactional

@@ -39,6 +39,7 @@ public class Product {
         this.description = description;
         this.price = price;
         this.date = LocalDate.now();
+
         this.user = user;
     }
 
