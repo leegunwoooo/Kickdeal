@@ -23,19 +23,19 @@ public class ProductService {
 
     public Product save(ProductDTO productDTO) {
 
-        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();  // 로그인된 사용자의 username (아이디) 가져오기
 
         System.out.println("사용자: " + authentication);
         System.out.println("사용자 이름: " + username);
 
-        User seller = userRepository.findById(username);*/
+        User seller = userRepository.findById(username);
 
         Product product = Product.builder()
                 .name(productDTO.getName())
                 .description(productDTO.getDescription())
                 .price(productDTO.getPrice())
-                //.user(seller)
+                .user(seller)
                 .build();
 
         return productRepository.save(product);
