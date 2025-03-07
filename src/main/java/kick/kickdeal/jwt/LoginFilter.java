@@ -5,6 +5,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kick.kickdeal.dto.LoginDTO;
+import kick.kickdeal.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +22,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
+    private final RefreshTokenService refreshTokenService;
 
 
     @Override
@@ -51,7 +53,9 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String role = authorities.iterator().next().getAuthority();
 
         // JWT 토큰 생성
-        String token = jwtUtil.createAccessToken(username, role, 60 * 60 * 10L * 1000);
+        String token = jwtUtil.createAccessToken(username, role, 30 * 60L);
+
+        String refreshToken = refreshTokenService.createRefreshToken(username, role);
 
         // 헤더에 JWT 추가
         response.addHeader("Authorization", "Bearer " + token);
@@ -61,7 +65,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         try {
             System.out.println("로그인 성공 - username: " + username + ", role: " + role);
             System.out.println("발급된 JWT: " + token);
-            response.getWriter().write("{\"token\": \"" + token + "\"}");
+            response.getWriter().write("{\"token\": \"" + token +"\", \"refresh_token\": \"" + refreshToken + "\"}");
         } catch (IOException e) {
             throw new RuntimeException("토큰 응답을 생성하는 중 오류 발생", e);
         }
