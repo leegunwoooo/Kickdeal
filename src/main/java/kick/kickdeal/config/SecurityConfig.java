@@ -74,8 +74,8 @@ public class SecurityConfig {
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/product/**").permitAll()  // 조회(GET)는 모두 허용
                         .requestMatchers(HttpMethod.POST, "/product/save").hasRole("ADMIswN")
-                        .requestMatchers(HttpMethod.PUT, "/product/**").permitAll()//hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/product/**").permitAll()//hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/product/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/product/**").hasRole("ADMIN")
                         .anyRequest().authenticated());
 
         http

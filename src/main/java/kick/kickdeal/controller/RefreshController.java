@@ -16,7 +16,7 @@ public class RefreshController {
     private final RefreshTokenService refreshTokenService;
     private final JWTUtil jwtUtil;
 
-    @PostMapping
+    @PostMapping("/refresh")
     public String refreshToken(@RequestBody RefreshDTO refreshDTO) {
         String refreshToken = refreshDTO.getRefreshToken();
         return refreshTokenService.refreshAccessToken(refreshToken);
