@@ -17,5 +17,4 @@ public class JoinController {
     public String joinProcess(@RequestBody JoinDTO joinDTO) {
         return joinService.joinprocess(joinDTO);
     }
-
 }

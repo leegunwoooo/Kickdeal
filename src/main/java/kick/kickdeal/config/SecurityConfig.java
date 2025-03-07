@@ -4,6 +4,7 @@ import kick.kickdeal.jwt.JWTFilter;
 import kick.kickdeal.jwt.JWTUtil;
 import kick.kickdeal.jwt.LoginFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -27,6 +28,8 @@ public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
+    @Value("${spring.jwt.secret}")
+    private String secret;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -68,7 +71,7 @@ public class SecurityConfig {
                         .requestMatchers("login", "/", "/join", "/email").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/product/**").permitAll()  // 조회(GET)는 모두 허용
-                        .requestMatchers(HttpMethod.POST, "/product/save").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/product/save").hasRole("ADMIswN")
                         .requestMatchers(HttpMethod.PUT, "/product/**").permitAll()//hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/product/**").permitAll()//hasRole("ADMIN")
                         .anyRequest().authenticated());
