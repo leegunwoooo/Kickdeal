@@ -53,7 +53,7 @@ public class SecurityConfig {
 
         http.cors(cors -> cors.configurationSource(request -> {
             var corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
-            corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:5173"));
+            corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:5173","https://kick-deal-front.vercel.app/"));
             corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
             corsConfiguration.setAllowedHeaders(List.of("*"));
             corsConfiguration.setAllowCredentials(true);
