@@ -31,6 +31,7 @@ public class ProductService {
         Product product = Product.builder()
                 .name(productDTO.getName())
                 .description(productDTO.getDescription())
+                .image(productDTO.getImage())
                 .price(productDTO.getPrice())
                 .user(seller)
                 .category(productDTO.getCategory())
@@ -55,7 +56,7 @@ public class ProductService {
             throw new IllegalArgumentException("본인만 상품정보를 수정할 수 있습니다. id: " + id);
        }
 
-        product.update(productDTO.getName(), productDTO.getDescription(), productDTO.getPrice(), productDTO.getCategory());
+        product.update(productDTO.getName(), productDTO.getDescription(), productDTO.getImage(), productDTO.getPrice(), productDTO.getCategory());
 
         return product;
     }
