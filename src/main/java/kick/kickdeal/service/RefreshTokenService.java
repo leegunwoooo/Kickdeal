@@ -55,7 +55,9 @@ public class RefreshTokenService {
         String role = (String) authentication.getPrincipal();
 
         long expirationMs = 1000L * 60 * 30;  // 액세스 토큰 유효기간 30분
-        return jwtUtil.createAccessToken(username, role, expirationMs);
+        String accestoken = jwtUtil.createAccessToken(username, role, expirationMs);
+        System.out.println(accestoken);
+        return accestoken;
     }
 
     public Boolean validateRefreshToken(String refreshToken) {
