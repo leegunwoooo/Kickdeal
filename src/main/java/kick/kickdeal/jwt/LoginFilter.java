@@ -53,7 +53,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String role = authorities.iterator().next().getAuthority();
 
         // JWT 토큰 생성
-        String token = jwtUtil.createAccessToken(username, role, 30 * 60L);
+        String token = jwtUtil.createAccessToken(username, role, 30 * 60L * 1000);
 
         String refreshToken = refreshTokenService.createRefreshToken(username, role);
 
