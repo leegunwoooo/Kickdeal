@@ -1,5 +1,6 @@
 package kick.kickdeal.service;
 
+import jakarta.servlet.http.HttpServletResponse;
 import kick.kickdeal.entity.RefreshToken;
 import kick.kickdeal.jwt.JWTUtil;
 import kick.kickdeal.repository.RefreshTokenRepository;
@@ -40,7 +41,7 @@ public class RefreshTokenService {
         return refreshToken;
     }
 
-    public String refreshAccessToken(String refreshToken) {
+    public String refreshAccessToken(String refreshToken, HttpServletResponse response) {
         // 리프레시 토큰을 DB에서 조회하여 유효한지 확인
         RefreshToken token = refreshTokenRepository.findByRefresh(refreshToken)
                 .orElseThrow(() -> new RuntimeException("Invalid refresh token"));
@@ -53,6 +54,7 @@ public class RefreshTokenService {
         String username = token.getUsername();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String role = (String) authentication.getPrincipal();
+        response.addHeader("Authorization", "Bearer " + token);
 
         long expirationMs = 1000L * 60 * 30;  // 액세스 토큰 유효기간 30분
         String accestoken = jwtUtil.createAccessToken(username, role, expirationMs);
