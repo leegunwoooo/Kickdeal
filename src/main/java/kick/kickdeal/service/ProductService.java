@@ -26,15 +26,14 @@ public class ProductService {
         // 사용자의 정보 가져오기
         User seller = userRepository.findById(nickname);
 
-
         // Product 객체 생성
         Product product = Product.builder()
                 .name(productDTO.getName())
                 .description(productDTO.getDescription())
-                .image(productDTO.getImage())
                 .price(productDTO.getPrice())
                 .user(seller)
                 .category(productDTO.getCategory())
+                .imageUrl(productDTO.getImageUrl())
                 .build();
 
         // 상품 저장
@@ -56,7 +55,7 @@ public class ProductService {
             throw new IllegalArgumentException("본인만 상품정보를 수정할 수 있습니다. id: " + id);
        }
 
-        product.update(productDTO.getName(), productDTO.getDescription(), productDTO.getImage(), productDTO.getPrice(), productDTO.getCategory());
+        product.update(productDTO.getName(), productDTO.getDescription(), productDTO.getImageUrl(), productDTO.getPrice(), productDTO.getCategory());
 
         return product;
     }
