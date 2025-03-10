@@ -25,8 +25,8 @@ public class RefreshTokenService {
         String refreshToken = jwtUtil.createRefreshToken(username, role, expirationMs);
 
         // 기존 refresh token이 존재하면 삭제
-        refreshTokenRepository.findByUsername(username)
-                .ifPresent(token -> refreshTokenRepository.deleteByRefresh(token.getRefresh()));
+        refreshTokenRepository.findByRefresh(username)
+                .ifPresent(token -> refreshTokenRepository.deleteByRefresh(refreshToken));
 
         // 새로운 리프레시 토큰 저장
         RefreshToken token = new RefreshToken();
@@ -40,7 +40,7 @@ public class RefreshTokenService {
     }
 
     public String refreshAccessToken(String refreshToken, HttpServletResponse response) {
-        RefreshToken token = refreshTokenRepository.findByUsername(jwtUtil.getUsername(refreshToken))
+        RefreshToken token = refreshTokenRepository.findByRefresh(refreshToken)
                 .orElseThrow(() -> new RuntimeException("유효하지 않은 Refresh Token"));
 
         if (token.getExpiration().isBefore(LocalDateTime.now())) {
