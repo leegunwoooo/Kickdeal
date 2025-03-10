@@ -1,8 +1,7 @@
 package kick.kickdeal.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
 import kick.kickdeal.dto.RefreshDTO;
-import kick.kickdeal.entity.RefreshToken;
-import kick.kickdeal.jwt.JWTUtil;
 import kick.kickdeal.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,11 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class RefreshController {
 
     private final RefreshTokenService refreshTokenService;
-    private final JWTUtil jwtUtil;
 
     @PostMapping("/refresh")
-    public String refreshToken(@RequestBody RefreshDTO refreshDTO) {
+    public String refreshToken(@RequestBody RefreshDTO refreshDTO, HttpServletResponse response) {
         String refreshToken = refreshDTO.getRefreshToken();
-        return refreshTokenService.refreshAccessToken(refreshToken);
+        return refreshTokenService.refreshAccessToken(refreshToken, response);
     }
 }
