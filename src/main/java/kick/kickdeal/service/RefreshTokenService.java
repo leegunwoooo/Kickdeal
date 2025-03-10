@@ -42,25 +42,22 @@ public class RefreshTokenService {
     }
 
     public String refreshAccessToken(String refreshToken, HttpServletResponse response) {
-        // 리프레시 토큰을 DB에서 조회하여 유효한지 확인
         RefreshToken token = refreshTokenRepository.findByRefresh(refreshToken)
-                .orElseThrow(() -> new RuntimeException("Invalid refresh token"));
+                .orElseThrow(() -> new RuntimeException("유효하지 않은 Refresh Token"));
 
         if (token.getExpiration().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("Refresh token has expired");
+            throw new RuntimeException("만료된 Refresh Token");
         }
 
-        // 리프레시 토큰이 유효하면 새로운 액세스 토큰 발급
         String username = token.getUsername();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String role = (String) authentication.getPrincipal();
 
 
         long expirationMs = 1000L * 60 * 30;  // 액세스 토큰 유효기간 30분
-        String accestoken = jwtUtil.createAccessToken(username, role, expirationMs);
-        System.out.println(accestoken);
-        response.addHeader("Authorization", "Bearer " + accestoken);
-        return accestoken;
+        String accessToken = jwtUtil.createAccessToken(username, role, expirationMs);
+        response.addHeader("Authorization", "Bearer " + accessToken);
+        return accessToken;
     }
 
     public Boolean validateRefreshToken(String refreshToken) {
