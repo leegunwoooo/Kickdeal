@@ -6,11 +6,13 @@ import kick.kickdeal.jwt.JWTUtil;
 import kick.kickdeal.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +53,8 @@ public class RefreshTokenService {
 
         String username = token.getUsername();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String role = (String) authentication.getPrincipal();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        String role = authorities.iterator().next().getAuthority();
 
 
         long expirationMs = 1000L * 60 * 30;  // 액세스 토큰 유효기간 30분
