@@ -2,18 +2,13 @@ package kick.kickdeal.service;
 
 import jakarta.servlet.http.HttpServletResponse;
 import kick.kickdeal.entity.RefreshToken;
-import kick.kickdeal.jwt.CustomUserDetails;
 import kick.kickdeal.jwt.JWTUtil;
 import kick.kickdeal.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +25,7 @@ public class RefreshTokenService {
         String refreshToken = jwtUtil.createRefreshToken(username, role, expirationMs);
 
         // 기존 refresh token이 존재하면 삭제
-        refreshTokenRepository.findByRefresh(refreshToken)
+        refreshTokenRepository.findByUsername(username)
                 .ifPresent(token -> refreshTokenRepository.deleteByRefresh(token.getRefresh()));
 
         // 새로운 리프레시 토큰 저장
@@ -45,23 +40,19 @@ public class RefreshTokenService {
     }
 
     public String refreshAccessToken(String refreshToken, HttpServletResponse response) {
-        RefreshToken token = refreshTokenRepository.findByRefresh(refreshToken)
+        RefreshToken token = refreshTokenRepository.findByUsername(jwtUtil.getUsername(refreshToken))
                 .orElseThrow(() -> new RuntimeException("유효하지 않은 Refresh Token"));
 
         if (token.getExpiration().isBefore(LocalDateTime.now())) {
             throw new RuntimeException("만료된 Refresh Token");
         }
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
-        String username = customUserDetails.getUsername();
-
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        String role = authorities.iterator().next().getAuthority();
+        String username = jwtUtil.getUsername(refreshToken);
+        String role = jwtUtil.getRole(refreshToken);
 
         long expirationMs = 1000L * 60 * 30;  // 액세스 토큰 유효기간 30분
         String accessToken = jwtUtil.createAccessToken(username, role, expirationMs);
+
         response.addHeader("Authorization", "Bearer " + accessToken);
         return accessToken;
     }
