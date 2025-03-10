@@ -30,7 +30,7 @@ public class ProductController {
         return productService.findById(id);
     }
 
-    @GetMapping
+    @GetMapping("/qudtls")
     public List<Product> getAllProducts() {
         return productService.findAll();
     }
