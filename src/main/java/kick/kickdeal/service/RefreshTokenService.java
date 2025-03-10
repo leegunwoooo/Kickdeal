@@ -2,6 +2,7 @@ package kick.kickdeal.service;
 
 import jakarta.servlet.http.HttpServletResponse;
 import kick.kickdeal.entity.RefreshToken;
+import kick.kickdeal.jwt.CustomUserDetails;
 import kick.kickdeal.jwt.JWTUtil;
 import kick.kickdeal.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -51,11 +52,13 @@ public class RefreshTokenService {
             throw new RuntimeException("만료된 Refresh Token");
         }
 
-        String username = token.getUsername();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        String username = customUserDetails.getUsername();
+
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         String role = authorities.iterator().next().getAuthority();
-
 
         long expirationMs = 1000L * 60 * 30;  // 액세스 토큰 유효기간 30분
         String accessToken = jwtUtil.createAccessToken(username, role, expirationMs);
