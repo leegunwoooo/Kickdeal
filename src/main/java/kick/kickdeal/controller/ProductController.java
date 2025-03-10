@@ -1,11 +1,13 @@
 package kick.kickdeal.controller;
 
 import kick.kickdeal.dto.ProductDTO;
+import kick.kickdeal.dto.ProductUploadDTO;
 import kick.kickdeal.entity.Product;
+import kick.kickdeal.service.MinioService;
 import kick.kickdeal.service.ProductService;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -15,10 +17,11 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final MinioService minioService;
 
     @PostMapping("/save")
-    public ProductDTO createProduct(@RequestBody ProductDTO productDTO) {
-        return productService.save(productDTO);
+    public ProductDTO createProduct(@RequestBody ProductUploadDTO productUploadDTO) {
+        minioService.uploadFile(productUploadDTO);
     }
 
     @PutMapping("/{id}")
