@@ -3,7 +3,6 @@ package kick.kickdeal.controller;
 import kick.kickdeal.dto.ProductDTO;
 import kick.kickdeal.entity.Product;
 import kick.kickdeal.service.ProductService;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
