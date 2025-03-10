@@ -31,4 +31,5 @@ public class RefreshToken {
         this.refresh = refresh;
         this.expiration = expiration;
     }
+    /**/
 }
