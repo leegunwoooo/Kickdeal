@@ -54,11 +54,12 @@ public class RefreshTokenService {
         String username = token.getUsername();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String role = (String) authentication.getPrincipal();
-        response.addHeader("Authorization", "Bearer " + token);
+
 
         long expirationMs = 1000L * 60 * 30;  // 액세스 토큰 유효기간 30분
         String accestoken = jwtUtil.createAccessToken(username, role, expirationMs);
         System.out.println(accestoken);
+        response.addHeader("Authorization", "Bearer " + accestoken);
         return accestoken;
     }
 
