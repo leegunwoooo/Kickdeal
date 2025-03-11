@@ -1,7 +1,6 @@
 package kick.kickdeal.service;
 
 import kick.kickdeal.dto.JoinDTO;
-import kick.kickdeal.entity.Role;
 import kick.kickdeal.entity.User;
 import kick.kickdeal.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

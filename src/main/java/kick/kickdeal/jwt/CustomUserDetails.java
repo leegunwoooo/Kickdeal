@@ -3,10 +3,11 @@
     import kick.kickdeal.entity.User;
     import lombok.RequiredArgsConstructor;
     import org.springframework.security.core.GrantedAuthority;
+    import org.springframework.security.core.authority.SimpleGrantedAuthority;
     import org.springframework.security.core.userdetails.UserDetails;
 
-    import java.util.ArrayList;
     import java.util.Collection;
+    import java.util.List;
 
     @RequiredArgsConstructor
     public class CustomUserDetails implements UserDetails {
@@ -17,11 +18,8 @@
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
 
-            Collection<GrantedAuthority> collection = new ArrayList<>();
+            return List.of(new SimpleGrantedAuthority(user.getRole().name()));
 
-            collection.add((GrantedAuthority) user::getRole);
-
-            return collection;
         }
 
         @Override

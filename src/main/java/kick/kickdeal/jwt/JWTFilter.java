@@ -52,7 +52,6 @@ public class JWTFilter extends OncePerRequestFilter {
         // User 객체 생성
         User user = new User();
         user.setId(username);
-        user.setRole(role);
 
         // UserDetails 생성 (비밀번호는 null로 설정)
         CustomUserDetails customUserDetails = new CustomUserDetails(user);
