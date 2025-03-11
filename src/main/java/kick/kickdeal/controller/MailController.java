@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.UnsupportedEncodingException;
-
 @RestController
 @RequiredArgsConstructor
 public class MailController {
@@ -21,7 +19,7 @@ public class MailController {
 
     @ResponseBody
     @PostMapping("/email")
-    public CodeResponseDTO emailCheck(@RequestBody MailDTO mailDTO) throws MessagingException, UnsupportedEncodingException {
+    public CodeResponseDTO emailCheck(@RequestBody MailDTO mailDTO) throws MessagingException {
         String authCode = mailService.sendSimpleMessage(mailDTO.getEmail());
         return new CodeResponseDTO(authCode);
     }

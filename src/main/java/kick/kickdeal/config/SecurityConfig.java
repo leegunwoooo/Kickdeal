@@ -53,7 +53,7 @@ public class SecurityConfig {
 
         http.cors(cors -> cors.configurationSource(request -> {
             var corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
-            corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:5173","https://kick-deal-front.vercel.app/"));
+            corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:5173","https://kick-deal-front.vercel.app"));
             corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
             corsConfiguration.setAllowedHeaders(List.of("*"));
             corsConfiguration.setAllowCredentials(true);
@@ -73,9 +73,9 @@ public class SecurityConfig {
                         .requestMatchers("login", "/", "/join", "/email", "/refresh").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/product/**").permitAll()  // 조회(GET)는 모두 허용
-                        .requestMatchers(HttpMethod.POST, "/product/save").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/product/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/product/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/product/save").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.PUT, "/product/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE, "/product/**").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated());
 
         http
