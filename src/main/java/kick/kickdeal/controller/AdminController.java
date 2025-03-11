@@ -25,5 +25,6 @@ public class AdminController {
         user.setRole(Role.ROLE_ADMIN);
 
         return user;
+        //테스트
     }
 }
