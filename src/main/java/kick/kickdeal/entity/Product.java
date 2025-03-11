@@ -22,7 +22,7 @@ public class Product {
 
     private String description;
 
-    private String image;
+    private String imageUrl;
 
     private int price;
 
@@ -38,10 +38,10 @@ public class Product {
     private Category category;
 
     @Builder
-    public Product(String name, String description,String image, int price, User user, Category category) {
+    public Product(String name, String description,String imageUrl, int price, User user, Category category) {
         this.name = name;
         this.description = description;
-        this.image = image;
+        this.imageUrl = imageUrl;
         this.price = price;
         this.date = LocalDate.now();
         this.user = user;
@@ -49,10 +49,9 @@ public class Product {
     }
 
 
-    public void update(String name, String description,String image, int price, Category category) {
+    public void update(String name, String description, int price, Category category) {
         this.name = name;
         this.description = description;
-        this.image = image;
         this.price = price;
         this.category = category;
     }
