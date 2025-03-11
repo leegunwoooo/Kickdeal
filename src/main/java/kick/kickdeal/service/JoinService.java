@@ -1,6 +1,7 @@
 package kick.kickdeal.service;
 
 import kick.kickdeal.dto.JoinDTO;
+import kick.kickdeal.entity.Role;
 import kick.kickdeal.entity.User;
 import kick.kickdeal.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class JoinService {
         User user = new User();
         user.setId(dto.getId());
         user.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
-        user.setRole("ROLE_ADMIN");
+        user.setRole(Role.ROLE_USER);
 
         userRepository.save(user);
         return "ok";
