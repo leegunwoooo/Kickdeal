@@ -71,7 +71,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("login", "/", "/join", "/email", "/refresh").permitAll()
-                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .requestMatchers("/admin").permitAll()
                         .requestMatchers(HttpMethod.GET, "/product/**").permitAll()  // 조회(GET)는 모두 허용
                         .requestMatchers(HttpMethod.POST, "/product/save").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.PUT, "/product/**").hasAnyRole("ADMIN", "USER")
