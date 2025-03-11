@@ -2,14 +2,16 @@ package kick.kickdeal.service;
 
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
-import kick.kickdeal.dto.ProductUploadDTO;
 import org.springframework.stereotype.Service;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.errors.*; // Minio 관련 예외
 import io.minio.http.Method;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 @Service
@@ -22,17 +24,17 @@ public class MinioService {
         this.minioClient = minioClient;
     }
 
-    public String uploadFile(ProductUploadDTO productUploadDTO) throws IOException, MinioException {
-        InputStream inputStream = productUploadDTO.getImage().getInputStream();
-        String fileName = UUID.randomUUID() + "_" + productUploadDTO.getImage().getOriginalFilename();
+    public String uploadFile(MultipartFile file) throws IOException, MinioException, NoSuchAlgorithmException, InvalidKeyException {
+        InputStream inputStream = file.getInputStream();
+        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
 
 
         minioClient.putObject(
                 PutObjectArgs.builder()
                         .bucket(DEFAULT_BUCKET)
                         .object(fileName)
-                        .stream(inputStream, productUploadDTO.getImage().getSize(), -1)
-                        .contentType(productUploadDTO.getImage().getContentType())
+                        .stream(inputStream, file.getSize(), -1)
+                        .contentType(file.getContentType())
                         .build()
         );
 

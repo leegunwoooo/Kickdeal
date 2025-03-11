@@ -1,32 +1,36 @@
 package kick.kickdeal.controller;
 
-import kick.kickdeal.dto.ProductDTO;
-import kick.kickdeal.dto.ProductUploadDTO;
+import io.minio.errors.MinioException;
+import kick.kickdeal.dto.ProductRequestDTO;
+import kick.kickdeal.dto.ProductResponseDTO;
 import kick.kickdeal.entity.Product;
 import kick.kickdeal.service.MinioService;
 import kick.kickdeal.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+@Service
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/product")
 public class ProductController {
 
     private final ProductService productService;
-    private final MinioService minioService;
 
     @PostMapping("/save")
-    public ProductDTO createProduct(@RequestBody ProductUploadDTO productUploadDTO) {
-        minioService.uploadFile(productUploadDTO);
+    public ProductResponseDTO createProduct(@ModelAttribute ProductRequestDTO productRequestDTO) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+        return productService.save(productRequestDTO);
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
-        return productService.update(id, productDTO);
+    public Product updateProduct(@PathVariable Long id, @ModelAttribute ProductRequestDTO productRequestDTO) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+        return productService.update(id, productRequestDTO);
     }
 
     @GetMapping("/{id}")

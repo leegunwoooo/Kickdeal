@@ -49,10 +49,9 @@ public class Product {
     }
 
 
-    public void update(String name, String description,String image, int price, Category category) {
+    public void update(String name, String description, int price, Category category) {
         this.name = name;
         this.description = description;
-        this.imageUrl = imageUrl;
         this.price = price;
         this.category = category;
     }
