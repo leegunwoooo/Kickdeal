@@ -57,11 +57,4 @@ public class RefreshTokenService {
         return accessToken;
     }
 
-    public Boolean validateRefreshToken(String refreshToken) {
-        return refreshTokenRepository.existsByRefresh(refreshToken);
-    }
-
-    public void deleteRefreshToken(String refreshToken) {
-        refreshTokenRepository.deleteByRefresh(refreshToken);
-    }
 }
