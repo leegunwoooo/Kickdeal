@@ -19,9 +19,12 @@ public class AdminController {
     public User updateAdmin(@RequestBody UpdateAdminDTO dto) {
         User user = userRepository.findById(dto.getUsername());
 
+        if (user == null) {
+            throw new RuntimeException("없는 유저입니다.");
+        }
+
         user.setRole(Role.ROLE_ADMIN);
 
-        return user;
-        //테스트
+        return userRepository.save(user);
     }
 }
