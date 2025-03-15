@@ -8,16 +8,20 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MinioConfig {
 
-    @Value("${minio.url}")
-    private String minioUrl;
+    private final String minioUrl;
+    private final String accessKey;
+    private final String secretKey;
 
-    @Value("${minio.access-key}")
-    private String accessKey;
+    public MinioConfig(
+            @Value("${minio.url}") String minioUrl,
+            @Value("${minio.access-key}") String accessKey,
+            @Value("${minio.secret-key}") String secretKey,
+            @Value("${minio.default-bucket}") String bucket) {
+        this.minioUrl = minioUrl;
+        this.accessKey = accessKey;
+        this.secretKey = secretKey;
+    }
 
-    @Value("${minio.secret-key}")
-    private String secretKey;
-
-    @Value("${minio.bucket}")
     @Bean
     public MinioClient minioClient() {
         return MinioClient.builder()
