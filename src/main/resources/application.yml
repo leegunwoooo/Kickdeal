@@ -44,9 +44,11 @@ spring:
     url: ${MINIO_URL}
     access-key: ${MINIO_ACCESS_KEY}
     secret-key: ${MINIO_SECRET_KEY}
-    default-bucket: ${BUCKET}
 
   servlet:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
+
+server:
+  port: 8080

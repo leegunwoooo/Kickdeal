@@ -15,8 +15,7 @@ public class MinioConfig {
     public MinioConfig(
             @Value("${minio.url}") String minioUrl,
             @Value("${minio.access-key}") String accessKey,
-            @Value("${minio.secret-key}") String secretKey,
-            @Value("${minio.default-bucket}") String bucket) {
+            @Value("${minio.secret-key}") String secretKey) {
         this.minioUrl = minioUrl;
         this.accessKey = accessKey;
         this.secretKey = secretKey;

@@ -3,7 +3,6 @@ package kick.kickdeal.service;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
 import kick.kickdeal.exception.BaseException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import io.minio.GetPresignedObjectUrlArgs;
@@ -21,9 +20,6 @@ import java.util.UUID;
 public class MinioService {
     private final MinioClient minioClient;
 
-    @Value("${spring.minio.default-bucket}")
-    private String DEFAULT_BUCKET;
-
     public MinioService(MinioClient minioClient) {
         this.minioClient = minioClient;
     }
@@ -33,10 +29,9 @@ public class MinioService {
             InputStream inputStream = file.getInputStream();
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
 
-
             minioClient.putObject(
                     PutObjectArgs.builder()
-                            .bucket(DEFAULT_BUCKET)
+                            .bucket("KickDeal")
                             .object(fileName)
                             .stream(inputStream, file.getSize(), -1)
                             .contentType(file.getContentType())
@@ -45,7 +40,7 @@ public class MinioService {
 
             return minioClient.getPresignedObjectUrl(
                     GetPresignedObjectUrlArgs.builder()
-                            .bucket(DEFAULT_BUCKET)
+                            .bucket("KickDeal")
                             .object(fileName)
                             .method(Method.GET)
                             .build()
