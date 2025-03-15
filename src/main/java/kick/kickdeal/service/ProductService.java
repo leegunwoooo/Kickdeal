@@ -1,6 +1,5 @@
 package kick.kickdeal.service;
 
-import io.minio.errors.MinioException;
 import kick.kickdeal.dto.ProductResponseDTO;
 import kick.kickdeal.dto.ProductRequestDTO;
 import kick.kickdeal.entity.Product;
@@ -11,12 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class ProductService {
@@ -25,35 +22,29 @@ public class ProductService {
     private final UserRepository userRepository;
     private final MinioService minioService;
 
-    public ProductResponseDTO save(ProductRequestDTO productRequestDTO) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
-        // 현재 로그인한 사용자 닉네임을 가져옵니다.
+    public ProductResponseDTO save(ProductRequestDTO productRequestDTO, MultipartFile image) {
         String nickname = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        // 사용자의 정보 가져오기
         User seller = userRepository.findById(nickname);
 
-        // Image파일 가져와서 minio에 올리고 ImageUrl 반환
-        String imageUrl = minioService.uploadFile(productRequestDTO.getImage());
+        String imageUrl = minioService.uploadFile(image);
 
-        // Product 객체 생성
         Product product = Product.builder()
-                .name(productRequestDTO.getName())
-                .description(productRequestDTO.getDescription())
-                .price(productRequestDTO.getPrice())
-                .user(seller)
-                .category(productRequestDTO.getCategory())
-                .imageUrl(imageUrl)
-                .build();
+                    .name(productRequestDTO.name())
+                    .description(productRequestDTO.description())
+                    .price(productRequestDTO.price())
+                    .user(seller)
+                    .category(productRequestDTO.category())
+                    .imageUrl(imageUrl)
+                    .build();
 
-        // 상품 저장
         product = productRepository.save(product);
 
-        // 저장된 상품을 DTO로 변환하여 반환
         return new ProductResponseDTO(product);
+
     }
 
-    @Transactional
-    public Product update(Long id, ProductRequestDTO productRequestDTO) throws MinioException, IOException, NoSuchAlgorithmException, InvalidKeyException {
+    public Product update(Long id, ProductRequestDTO productRequestDTO) {
 
         String nickname = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -65,10 +56,10 @@ public class ProductService {
         }
 
         product.update(
-                productRequestDTO.getName(),
-                productRequestDTO.getDescription(),
-                productRequestDTO.getPrice(),
-                productRequestDTO.getCategory()
+                productRequestDTO.name(),
+                productRequestDTO.description(),
+                productRequestDTO.price(),
+                productRequestDTO.category()
         );
 
         return product;
