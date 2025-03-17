@@ -22,6 +22,7 @@ public class Product {
 
     private String description;
 
+    @Column(length = 2083)
     private String imageUrl;
 
     private int price;

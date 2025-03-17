@@ -31,7 +31,7 @@ public class MinioService {
 
             minioClient.putObject(
                     PutObjectArgs.builder()
-                            .bucket("KickDeal")
+                            .bucket("kickdeal")
                             .object(fileName)
                             .stream(inputStream, file.getSize(), -1)
                             .contentType(file.getContentType())
@@ -40,7 +40,7 @@ public class MinioService {
 
             return minioClient.getPresignedObjectUrl(
                     GetPresignedObjectUrlArgs.builder()
-                            .bucket("KickDeal")
+                            .bucket("kickdeal")
                             .object(fileName)
                             .method(Method.GET)
                             .build()
