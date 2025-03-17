@@ -23,8 +23,9 @@ public class ProductController {
 
     @PostMapping(value = "/save", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ProductResponseDTO createProduct(
-            @RequestPart("product") ProductRequestDTO productRequestDTO,
+            @RequestPart("productRequestDTO") ProductRequestDTO productRequestDTO,
             @RequestPart("image") MultipartFile image) {
+
         return productService.save(productRequestDTO, image);
     }
 
