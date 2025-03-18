@@ -6,6 +6,5 @@ public record ProductRequestDTO(
         String name,
         String description,
         int price,
-        String userNickname,
         Category category) {
 }
