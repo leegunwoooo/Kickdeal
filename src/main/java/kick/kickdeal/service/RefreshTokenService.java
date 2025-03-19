@@ -24,7 +24,6 @@ public class RefreshTokenService {
 
         String refreshToken = jwtUtil.createRefreshToken(username, role, expirationMs);
 
-        // 기존 refresh token이 존재하면 삭제
         refreshTokenRepository.findByRefresh(username)
                 .ifPresent(token -> refreshTokenRepository.deleteByRefresh(refreshToken));
 
@@ -50,7 +49,7 @@ public class RefreshTokenService {
         String username = jwtUtil.getUsername(refreshToken);
         String role = jwtUtil.getRole(refreshToken);
 
-        long expirationMs = 1000L * 60 * 30;  // 액세스 토큰 유효기간 30분
+        long expirationMs = 1000L * 60 * 30;
         String accessToken = jwtUtil.createAccessToken(username, role, expirationMs);
 
         response.addHeader("Authorization", "Bearer " + accessToken);

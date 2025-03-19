@@ -38,7 +38,7 @@ public class Product {
     private Category category;
 
     @Builder
-    public Product(String name, String description,String imageUrl, int price, User user, Category category) {
+    public Product(String name, String description, String imageUrl, int price, User user, Category category) {
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;

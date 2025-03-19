@@ -19,5 +19,9 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_USER;
+
+    public void update(String id){
+        this.id = id;
+    }
 }
 
