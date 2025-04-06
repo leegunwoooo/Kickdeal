@@ -1,0 +1,26 @@
+package kick.kickdeal.presentation.controller;
+
+import jakarta.mail.MessagingException;
+
+import kick.kickdeal.presentation.dto.CodeResponseDTO;
+import kick.kickdeal.presentation.dto.MailDTO;
+import kick.kickdeal.application.service.MailService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequiredArgsConstructor
+public class MailController {
+
+    private final MailService mailService;
+
+    @ResponseBody
+    @PostMapping("/email")
+    public CodeResponseDTO emailCheck(@RequestBody MailDTO mailDTO) throws MessagingException {
+        String authCode = mailService.sendSimpleMessage(mailDTO.getEmail());
+        return new CodeResponseDTO(authCode);
+    }
+}
